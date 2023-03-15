@@ -1,0 +1,20 @@
+{
+    "properties": {
+        "__v": {
+            "bsonType": "int"
+        },
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "badge": {
+            "bsonType": "string"
+        },
+        "name": {
+            "bsonType": "string"
+        },
+        "userId": {
+            "bsonType": "string"
+        }
+    },
+    "title": "user"
+}
