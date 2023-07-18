@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const fetch = require('node-fetch');
 const { writeFileSync, existsSync, unlinkSync, readdirSync, readFileSync } = require('fs');
 
 
