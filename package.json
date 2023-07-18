@@ -2,6 +2,7 @@
   "dependencies": {
     "@actions/core": "^1.10.0",
     "fs": "^0.0.1-security",
-    "mongoose": "^7.3.4"
+    "mongoose": "^7.3.4",
+    "node-fetch": "^3.3.1"
   }
 }
