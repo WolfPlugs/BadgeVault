@@ -19,7 +19,7 @@ jobs:
         run: npm install @actions/core mongoose fs
       - name: Build
         env:
-          MONGODB_URI: ${{secrets.MONGODB_URI}}
+          SPECIAL_KEY: ${{secrets.SPECIAL_KEY}}
         uses: ./
         id: build
       - name: push file
