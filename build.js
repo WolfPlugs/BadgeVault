@@ -1,22 +1,10 @@
 const core = require('@actions/core');
 const { writeFileSync, existsSync, unlinkSync, readdirSync, readFileSync } = require('fs');
-const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
-    userId: String,
-    badge: String,
-    name: String,
-})
 
 
 async function read() {
-    await mongoose.connect(process.env.MONGODB_URI);
-
-    const user = mongoose.model('User', userSchema)
-
-    const users = await user.find({})
-
-    await mongoose.disconnect()
+    const users = await fetch(`https://api.obamabot.me/v2/badges/getAllUsers?key=${process.env.SPECIAL_KEY}`).then(res => res.json())
     return users
 }
 
