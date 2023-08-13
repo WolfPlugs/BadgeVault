@@ -1,4 +1,4 @@
-name: The Uploader?
+name: Database Sync Task
 on:
   schedule:
     - cron:  '*/5 * * * *'
@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build file
+  SyncDatabase:
+    name: BSync Database
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -26,7 +26,7 @@ jobs:
         id: build
       - name: push file
         run: |
-          git config user.name Compiler
+          git config user.name Database Sync Task
           git config user.email github-actions@github.com
           git add . || true
           git commit -m "Build" && git push || true
