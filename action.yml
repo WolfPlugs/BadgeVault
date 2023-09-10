@@ -1,5 +1,5 @@
-name: 'Build file'
-description: 'Build file'
+name: 'Sync'
+description: 'Sync the repository with the database'
 runs:
     using: 'node20'
-    main: 'build.js'
+    main: 'sync.mjs'

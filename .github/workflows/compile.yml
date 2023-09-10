@@ -19,14 +19,7 @@ jobs:
               with:
                   node-version: 20
 
-            - uses: pnpm/action-setup@v2
-              with:
-                  version: latest
-
-            - name: Install Dependencies
-              run: pnpm i
-
-            - name: Build
+            - name: Sync
               env:
                   SPECIAL_KEY: ${{secrets.SPECIAL_KEY}}
               uses: ./
