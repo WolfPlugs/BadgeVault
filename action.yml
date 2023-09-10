@@ -1,5 +1,5 @@
 name: 'Build file'
 description: 'Build file'
 runs:
-  using: 'node16'
-  main: 'build.js'
+    using: 'node20'
+    main: 'build.js'

@@ -1,32 +1,40 @@
 name: Database Sync Task
 on:
-  schedule:
-    - cron:  '*/5 * * * *'
-  repository_dispatch:
-    types: [start-build-workflow]
-  workflow_dispatch:
+    schedule:
+        - cron: '*/5 * * * *'
+    repository_dispatch:
+        types: [start-build-workflow]
+    workflow_dispatch:
 
 jobs:
-  SyncDatabase:
-    name: BSync Database
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-      - name: Install Dependencies
-        run: npm install @actions/core mongoose fs
-      - name: Build
-        env:
-          SPECIAL_KEY: ${{secrets.SPECIAL_KEY}}
-        uses: ./
-        id: build
-      - name: push file
-        run: |
-          git config user.name "Database Sync Task"
-          git config user.email github-actions@github.com
-          git add . || true
-          git commit -m "Build" && git push || true
+    SyncDatabase:
+        name: BSync Database
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: latest
+
+            - name: Install Dependencies
+              run: pnpm i
+
+            - name: Build
+              env:
+                  SPECIAL_KEY: ${{secrets.SPECIAL_KEY}}
+              uses: ./
+              id: build
+
+            - name: push file
+              run: |
+                  git config user.name "Database Sync Task"
+                  git config user.email "action@github.com"
+                  git add . || true
+                  git commit -m "Sync Database" && git push || true
