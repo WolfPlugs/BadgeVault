@@ -8,7 +8,7 @@ on:
 
 jobs:
     SyncDatabase:
-        name: BSync Database
+        name: Sync Database
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repository
@@ -19,13 +19,13 @@ jobs:
               with:
                   node-version: 20
 
-            - name: Sync
+            - name: Pull Database
               env:
                   SPECIAL_KEY: ${{secrets.SPECIAL_KEY}}
               uses: ./
-              id: build
+              id: pull
 
-            - name: push file
+            - name: Push to Repo
               run: |
                   git config user.name "Database Sync Task"
                   git config user.email "action@github.com"

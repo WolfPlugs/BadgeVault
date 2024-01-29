@@ -2,4 +2,4 @@ name: 'Sync'
 description: 'Sync the repository with the database'
 runs:
     using: 'node20'
-    main: 'sync.mjs'
+    main: 'pull.mjs'
