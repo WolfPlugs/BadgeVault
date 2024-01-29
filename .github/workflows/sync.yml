@@ -22,7 +22,7 @@ jobs:
             - name: Sync
               env:
                   SPECIAL_KEY: ${{secrets.SPECIAL_KEY}}
-              uses: ./action.yml
+              uses: ./
               id: build
 
             - name: Push Files
