@@ -22,12 +22,12 @@ jobs:
             - name: Sync
               env:
                   SPECIAL_KEY: ${{secrets.SPECIAL_KEY}}
-              uses: ./
+              uses: ./action.yml
               id: build
 
-            - name: push file
+            - name: Push Files
               run: |
                   git config user.name "Database Sync Task"
                   git config user.email "action@github.com"
-                  git add . || true
+                  git add --all || true
                   git commit -m "Sync Database" && git push || true
