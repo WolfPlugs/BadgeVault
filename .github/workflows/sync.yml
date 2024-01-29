@@ -1,7 +1,7 @@
 name: Database Sync Task
 on:
     schedule:
-        - cron: '*/30 * * * *'
+        - cron: '*/5 * * * *'
     repository_dispatch:
         types: [start-build-workflow]
     workflow_dispatch:
@@ -25,9 +25,9 @@ jobs:
               uses: ./
               id: build
 
-            - name: Push Files
+            - name: push file
               run: |
                   git config user.name "Database Sync Task"
                   git config user.email "action@github.com"
-                  git add --all || true
+                  git add -A || true
                   git commit -m "Sync Database" && git push || true
