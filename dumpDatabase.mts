@@ -1,4 +1,4 @@
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, rmdirSync, rmSync, writeFileSync } from "node:fs";
 import { MongoClient } from "mongodb";
 
 type Badge = { name: string; badge: string; pending: boolean };
@@ -42,7 +42,7 @@ const usersToDrop = [];
 const singleFile: Record<string, Badge[]> = {};
 
 // Actively remove users that are no longer in the database
-rmSync("./User");
+rmdirSync("./User");
 mkdirSync("./User");
 
 for await (const user of filteredUsers) {
