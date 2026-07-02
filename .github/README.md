@@ -10,3 +10,14 @@ To add your badge to the repository, follow these steps:
 2. Read the #faq-badges channel to understand the rules and requirements for adding your badge.
 3. Once you have read and understood the guidelines, submit your badge for verification.
 4. After your badge has been verified and approved, it will be added to the repository, and you can start showcasing your badge!
+
+## How to programatically access the data in this repository
+### Via GitHub Pages
+```
+https://plugins.obamabot.me/BadgeVault/User/[userID].json
+```
+for example,
+https://plugins.obamabot.me/BadgeVault/User/516750892372852754.json
+
+### By Git cloning
+I'm sure you can figure this one out
