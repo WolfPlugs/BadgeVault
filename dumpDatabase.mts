@@ -2,7 +2,7 @@ import { writeFileSync } from "node:fs";
 import { MongoClient } from "mongodb";
 
 // biome-ignore lint/style/noNonNullAssertion: GitHub Actions
-const mongo = new MongoClient(process.env.MONGO_URI!);
+const mongo = new MongoClient(process.env.MONGODB_URI!);
 
 await mongo.connect();
 

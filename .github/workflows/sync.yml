@@ -1,15 +1,25 @@
-name: Database Sync Task
+name: Database Sync & Pages Deploy
 on:
   schedule:
     - cron: "*/30 * * * *"
   repository_dispatch:
     types: [start-build-workflow]
-  workflow_dispatch:
   push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  SyncDatabase:
-    name: Sync Database
+  SyncAndPush:
+    name: Sync Database & Push
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -31,7 +41,7 @@ jobs:
 
       - name: Pull Database
         env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
+          MONGO_URI: ${{ secrets.MONGODB_URI }}
         run: node dumpDatabase.mts
 
       - name: Push to Repo
@@ -40,3 +50,23 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A || true
           git commit -m "Sync Database" && git push || true
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+  DeployPages:
+    name: Deploy to GitHub Pages
+    needs: SyncAndPush
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
