@@ -18,6 +18,7 @@ const filteredUsers = usersCollection.aggregate([
 	{
 		$project: {
 			_id: 0,
+			__v: 0,
 			"badges._id": 0,
 		},
 	},
