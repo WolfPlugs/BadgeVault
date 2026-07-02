@@ -1,33 +1,40 @@
 name: Database Sync Task
 on:
-    schedule:
-        - cron: "*/30 * * * *"
-    repository_dispatch:
-        types: [start-build-workflow]
-    workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
+  repository_dispatch:
+    types: [start-build-workflow]
+  workflow_dispatch:
+  push:
 
 jobs:
-    SyncDatabase:
-        name: Sync Database
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Repository
-              uses: actions/checkout@v7
+  SyncDatabase:
+    name: Sync Database
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v6
-              with:
-                  node-version: 24
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
-            - name: Pull Database
-              env:
-                  SPECIAL_KEY: ${{secrets.SPECIAL_KEY}}
-              uses: ./
-              id: pull
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: "pnpm"
 
-            - name: Push to Repo
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git add -A || true
-                  git commit -m "Sync Database" && git push || true
+      - name: Install Dependencies
+        run: pnpm i
+
+      - name: Pull Database
+        env:
+          SPECIAL_KEY: ${{ secrets.SPECIAL_KEY }}
+        run: node dumpDatabase.mts
+
+      - name: Push to Repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A || true
+          git commit -m "Sync Database" && git push || true

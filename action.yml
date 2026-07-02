@@ -1,5 +1,0 @@
-name: 'Sync'
-description: 'Sync the repository with the database'
-runs:
-    using: 'node24'
-    main: 'pull.mjs'
