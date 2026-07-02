@@ -42,7 +42,7 @@ const usersToDrop = [];
 const singleFile: Record<string, Badge[]> = {};
 
 // Actively remove users that are no longer in the database
-rmdirSync("./User");
+rmSync("./User", { recursive: true, force: true });
 mkdirSync("./User");
 
 for await (const user of filteredUsers) {
