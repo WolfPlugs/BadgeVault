@@ -1,6 +1,8 @@
 import { writeFileSync } from "node:fs";
 import { MongoClient } from "mongodb";
 
+type Badge = { name: string; badge: string; pending: boolean };
+
 // biome-ignore lint/style/noNonNullAssertion: GitHub Actions
 const mongo = new MongoClient(process.env.MONGODB_URI!);
 
@@ -36,8 +38,24 @@ const filteredUsers = usersCollection.aggregate([
 	},
 ]);
 
+const usersToDrop = [];
+const singleFile: Record<string, Badge[]> = {};
+
 for await (const user of filteredUsers) {
-	writeFileSync(`./User/${user.userId}.json`, JSON.stringify(user));
+	if (user.badges && user.badges.length > 0) {
+		writeFileSync(`./User/${user.userId}.json`, JSON.stringify(user));
+		singleFile[user.userId] = user.badges;
+	} else {
+		usersToDrop.push(user.userId);
+	}
+}
+
+writeFileSync("./User/all.json", JSON.stringify(singleFile));
+
+if (usersToDrop.length > 0) {
+	await usersCollection.deleteMany({
+		userId: { $in: usersToDrop },
+	});
 }
 
 await mongo.close();
