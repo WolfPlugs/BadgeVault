@@ -31,7 +31,7 @@ jobs:
 
       - name: Pull Database
         env:
-          SPECIAL_KEY: ${{ secrets.SPECIAL_KEY }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
         run: node dumpDatabase.mts
 
       - name: Push to Repo
