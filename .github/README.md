@@ -19,5 +19,13 @@ https://plugins.obamabot.me/BadgeVault/User/[userID].json
 for example,
 https://plugins.obamabot.me/BadgeVault/User/516750892372852754.json
 
+You can also pull all in a single key value file with the `User/all.json` endpoint.
+
 ### By Git cloning
 I'm sure you can figure this one out
+
+## Notes
+Sometimes the github pages just fails to build without an error and simply says
+`Deployment failed, try again later.`
+I don't really have a fix for this, if this happens just wait for the next build attempt.
+This job is scheduled to run every 1/2 hour.
