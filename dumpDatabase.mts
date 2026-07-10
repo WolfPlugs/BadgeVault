@@ -1,4 +1,4 @@
-import { mkdirSync, rmdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { MongoClient } from "mongodb";
 
 type Badge = { name: string; badge: string; pending: boolean };
@@ -15,7 +15,15 @@ const filteredUsers = usersCollection.aggregate([
 	// Blocked Users
 	{
 		$match: { blocked: { $ne: true } },
-	},
+  },
+  // Cache badge count (inclusive of pending)
+  {
+          $set: {
+              originalBadgeCount: {
+                  $size: { $ifNull: ["$badges", []] },
+              },
+          },
+      },
 	// Remove internal _id elements
 	{
 		$project: {
@@ -49,7 +57,7 @@ for await (const user of filteredUsers) {
 	if (user.badges && user.badges.length > 0) {
 		writeFileSync(`./User/${user.userId}.json`, JSON.stringify(user));
 		singleFile[user.userId] = user.badges;
-	} else {
+	} else if(user.originalBadgeCount===0){
 		usersToDrop.push(user.userId);
 	}
 }

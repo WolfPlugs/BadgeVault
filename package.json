@@ -1,8 +1,8 @@
 {
 	"dependencies": {
-		"mongodb": "^7.4.0"
+		"mongodb": "^7.5.0"
 	},
 	"devDependencies": {
-		"@types/node": "^26.1.0"
+		"@types/node": "^26.1.1"
 	}
 }
